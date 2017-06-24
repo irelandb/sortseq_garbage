@@ -1,0 +1,91 @@
+#!/usr/bin/env python2.7
+
+''' Primary function for sortseq.ools. Currently supports: 
+
+simulate_library
+simulate_sublib
+simulate_sortseq
+simulate_selection
+simulate_mpra
+
+select_experiment
+select_bin
+select_bins
+select_window
+
+utils_tally
+utils_convert
+utils_getaligned
+utils_getvalid
+
+estimate_entropy
+estimate_mi
+estiamte_totalinfo
+estimate_precictiveinfo
+
+quantify_avgbin
+quantify_enrichment
+
+marginalize_count
+marginalize_mutrate
+marginalize_enrichment
+marginalize_infofootprint
+
+visualize_logo
+visualize_enrichment
+visualize_infofootprint
+
+model_leastsquares
+model_lasso
+model_infomax
+'''
+
+from __future__ import division
+import numpy as np
+import scipy as sp
+import argparse
+import sys
+import csv
+
+# sst only works at the commandline
+assert __name__ == '__main__'
+
+# Create argparse parser. 
+parser = argparse.ArgumentParser()
+
+# All functions can specify and output file. Default is stdout.
+parser.add_argument('-o','--out',default=False,help='Output location/type, by default it writes to standard output, if a file name is supplied it will write to a text file')
+
+
+# Add various subcommands individually viva subparsers
+subparsers = parser.add_subparsers()
+
+
+# preprocess
+import sortseq.compare_predictiveinformation_dev as compare_predictiveinformation_dev
+compare_predictiveinformation_dev.add_subparser(subparsers)
+
+# predictiveinfo_dev
+import sortseq.predictiveinfo_dev as predictiveinfo_dev
+predictiveinfo_dev.add_subparser(subparsers)
+
+#compare_predictiveinformation
+import sortseq.compare_predictiveinformation as compare_predictiveinformation
+compare_predictiveinformation.add_subparser(subparsers)
+
+#compare_predictiveinformation
+import sortseq.predictiveinfo as predictiveinfo
+predictiveinfo.add_subparser(subparsers)
+
+# Final incantiation needed for this to work
+args = parser.parse_args()
+args.func(args=args)
+
+
+
+
+
+
+
+
+
